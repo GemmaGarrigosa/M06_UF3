@@ -6,6 +6,7 @@ let dropText = document.querySelector('h2');
 let button = document.querySelector('button');
 let input = document.querySelector('#input-file');
 let preview = document.querySelector('#preview');
+let form = document.querySelector('form');
 
 //Invalidem per defecte del drag and drop 
 
@@ -86,7 +87,6 @@ function processFile(file,index){
 
 function removeBtn(i){
     fitxers.splice(i,1);
-    console.log(fitxers)
      preview.innerHTML = "";
     showFiles();
 }
@@ -105,4 +105,19 @@ input.addEventListener("change", function(){
     let arxiusSeleccionats = input.files;
     fitxers = fitxers.concat(Array.from(arxiusSeleccionats));
     showFiles();
+    form.submit();
+});
+
+//Passar aquestes dades al PHP
+
+form.addEventListener("submit", function(e){
+    e.preventDefault();  
+    const dataTransfer = new DataTransfer();
+    
+    fitxers.forEach(file=>{
+    dataTransfer.items.add(file);
+    })       
+    input.files = dataTransfer.files;
+    
+    form.submit();
 });
