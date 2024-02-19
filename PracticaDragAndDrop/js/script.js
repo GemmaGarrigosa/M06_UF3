@@ -36,13 +36,16 @@ dropArea.addEventListener("dragleave",function(){
 
 //Acció drop 
 
-dropArea.addEventListener("drop", function(e){
-    fitxers = fitxers.concat(Array.from(e.dataTransfer.files));
-
+dropArea.addEventListener("drop", function(event){
+    console.log('entra en drop')
+    fitxers = fitxers.concat(Array.from(event.dataTransfer.files));
+    console.log(fitxers)
+    showFiles();
 });
 
 //Funció showFiles 
 function showFiles(){
+    
     if (fitxers != null) {
 
         fitxers.forEach((file,index) =>{
@@ -53,26 +56,53 @@ function showFiles(){
 
 // Funció processFile (file,index)
 function processFile(file,index){
-    const validExtensions = ["image/jpeg","imatge/jpg","imatge/png","imatge/gif"];
-
+    
+    const validExtensions = ["image/jpg","image/png","image/gif","image/jpeg"];
+    preview.innerHTML = "";
     const docType = file.type;
 
-    if (!docType.includes(validExtensions)){
+    if (!validExtensions.includes(docType)){
         console.log("L'arxiu no conté l'extensió permesa");
         fitxers.splice(index,1);
-    }
+        
+    }else {
 
-    let reader = new FileReader(); // Ens permet llegir la info del fitxer de manera asíncrona
-    reader.readAsDataURL(file);
+        let reader = new FileReader(); // Ens permet llegir la info del fitxer de manera asíncrona
+        reader.onload = function(event) { // He trobat aquest mètode https://developer.mozilla.org/es/docs/Web/API/FileReader/load_event
+            let result = event.target.result;// agafa l'objecte que desencadena l'event i també l'objecte que rep del readAsDataResult()
+            let prev = `<div class="previewImage">
+            <img src="${result}"/>
+            <span>${file.name}</span>
+            <span onclick="removeBtn(${index})" class="material-symbols-outlined
+            removeBtn">c</span>
+            </div>`;
+            preview.innerHTML += prev;
+        }
+        reader.readAsDataURL(file);
+    }
 }
 
-// function mostraImatge(file){
-    
-//     let prev = `<div class="previewImage">
-//                 <img src="${result}"/>
-//                 <span>${file.name}</span>
-//                 <span onclick="remove(${index})" class="material-symbols-outlined
-//                 removeBtn">c</span>
-//                 </div>`;
-//     preview.innerHTML += prev;
-// }
+// Funció removeBtn(i)
+
+function removeBtn(i){
+    fitxers.splice(i,1);
+    console.log(fitxers)
+     preview.innerHTML = "";
+    showFiles();
+}
+
+// Click al botó Upload Files
+
+button.addEventListener("click", function(e){
+    e.preventDefault(); //evita que el formulari s'envii
+    input.click(); //t'obre la pestanya per carregar els arxius
+});
+
+
+//Gestiona els arxius seleccionats
+input.addEventListener("change", function(){
+    console.log('Entra a change')
+    let arxiusSeleccionats = input.files;
+    fitxers = fitxers.concat(Array.from(arxiusSeleccionats));
+    showFiles();
+});
