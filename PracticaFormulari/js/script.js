@@ -13,6 +13,7 @@ let numbers = /[0-9]/;
 let specialChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
 
 
+
 // F O C U S  O U T //
 
 inputs.forEach((input)=>{
@@ -30,6 +31,8 @@ inputs.forEach((input)=>{
                 }else {
                     input.style.borderColor = "green";
                 }
+            }else{
+                input.style.borderColor = "green";
             }
             
         }
@@ -96,18 +99,14 @@ let formulari = document.querySelector('form');
 
 formulari.addEventListener("submit", function (e){
     e.preventDefault(); //Evitem que s'envii
-    if (teCodiPostal()){
+    let esValid = Array.from(inputs).every(input => input.style.borderColor == "green"); //si estàn en verd es que tots estàn bé
+    if (esValid){
         formulari.submit();
     }
+    console.log('no valid');
 });
 
 // Funció que mira que tingui codi postal valid
-function teCodiPostal () {
-    if (inputcodi.value == ""){
-        return false;
-    }
-    return true;
-}
 
 
 function validateEmail(email) {
