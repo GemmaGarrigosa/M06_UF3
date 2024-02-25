@@ -99,15 +99,40 @@ let formulari = document.querySelector('form');
 
 formulari.addEventListener("submit", function (e){
     e.preventDefault(); //Evitem que s'envii
-    let esValid = Array.from(inputs).every(input => input.style.borderColor == "green"); //si estàn en verd es que tots estàn bé
-    if (esValid){
+    if (validaTot){
         formulari.submit();
     }
     console.log('no valid');
 });
 
 // Funció que mira que tingui codi postal valid
+function validaTot (){
+    inputs.forEach(input =>{
+        if (input.value == ""){
+            return false;
+        } else {
+            if (input.id == "inputemail"){
+                if (!validateEmail(input.value)){
+                    return false;
+                }
+            }
+            if (input.id == "inputpwd"){
+                let password = input.value;
+                if (password.length < 8 || password.length > 15 ||!/[a-z]/.test(password) ||!/[A-Z]/.test(password) ||!/[0-9]/.test(password) ||!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(password)) {
+                    return false;
+                }
+            }
 
+            if (input.id == "inputconfpwd"){
+                if (input.value != inputpwd.value){
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    });
+}
 
 function validateEmail(email) {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
@@ -149,3 +174,4 @@ function mostraErrorsPassword(errors,input) {
     input.parentNode.insertBefore(ul, input.nextSibling);
     errors = [];
 }
+
