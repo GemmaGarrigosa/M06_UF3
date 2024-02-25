@@ -103,35 +103,39 @@ formulari.addEventListener("submit", function (e){
         formulari.submit();
     }
     console.log('no valid');
+    return;
+    
 });
 
 // Funció que mira que tingui codi postal valid
 function validaTot (){
+    let valid = true;
     inputs.forEach(input =>{
         if (input.value == ""){
-            return false;
-        } else {
-            if (input.id == "inputemail"){
-                if (!validateEmail(input.value)){
-                    return false;
-                }
-            }
-            if (input.id == "inputpwd"){
-                let password = input.value;
-                if (password.length < 8 || password.length > 15 ||!/[a-z]/.test(password) ||!/[A-Z]/.test(password) ||!/[0-9]/.test(password) ||!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(password)) {
-                    return false;
-                }
-            }
-
-            if (input.id == "inputconfpwd"){
-                if (input.value != inputpwd.value){
-                    return false;
-                }
-            }
-
-            return true;
+            valid = false;
         }
+
+        if (input.id == "inputemail"){
+            if (!validateEmail(input.value)){
+                valid =false;
+            }
+        }
+        if (input.id == "inputpwd"){
+            let password = input.value;
+            if (password.length < 8 || password.length > 15 ||!/[a-z]/.test(password) ||!/[A-Z]/.test(password) ||!/[0-9]/.test(password) ||!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(password)) {
+                valid =false;
+            }
+        }
+
+        if (input.id == "inputconfpwd"){
+            if (input.value != inputpwd.value){
+                valid =false;
+            }
+        }
+ 
     });
+    
+    return valid;
 }
 
 function validateEmail(email) {
