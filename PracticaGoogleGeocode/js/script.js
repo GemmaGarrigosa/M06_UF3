@@ -1,6 +1,7 @@
 let map;
 let button = document.querySelector("#findLoc");
 let marcador = document.querySelector("#marcador");
+let marker = null;
 
 async function initMap() {
     const { Map } = await google.maps.importLibrary("maps");
@@ -10,7 +11,7 @@ async function initMap() {
     zoom: 15,
   });
 
-  new google.maps.Marker({
+   marker= new google.maps.Marker({
     position: center,
     map,
     title: "El meu barri!",
@@ -46,11 +47,15 @@ function mostraCoordenades() {
             map.setCenter(pos);
             map.setZoom(16);
 
-            new google.maps.Marker({
+            if (marker != null){
+                marker.setMap(null);
+            }
+           marker = new google.maps.Marker({
               position: pos,
               map: map,
-              title: "Ubicació trobada!"
+            
           });
+          
           
          } else {
            alert("No s'ha trobat la direcció");
@@ -67,10 +72,11 @@ function mouMarcador() {
         lng: position.coords.longitude
       };
       map.setCenter(pos);
-      map.setZoom(9);
+      map.setZoom(20);
        new google.maps.Marker({
         position: pos,
-        map: map
+        map: map,
+        title: "Estàs aquí"
       });
     });
   }
