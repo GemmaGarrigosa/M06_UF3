@@ -10,10 +10,11 @@
 
 <?php 
 
-$servername = "bbdd.martamillanlom.cat";
-$username = "ddb193275";
-$password = "bbddTest12!%";
-$dbname = "ddb193275";
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "users";
+
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
@@ -47,6 +48,7 @@ $conn->close();
                 </div>
                 
                 <input type="hidden" name="addEdit" id="addEdit" value="0"/>
+                <input  type="hidden" name="funcio" id="funcio" /> <!--indica quina query farà servir -->
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form> 
         </div>
@@ -70,7 +72,7 @@ $conn->close();
                                         <th scope="row">' . $array[$i]["id"] . '</th>
                                         <td>' . $array[$i]["nom"] . '</td>
                                         <td><p idProd="' . $array[$i]["id"] . '" class="btnEdit btn btn-outline-info">Edit</p></td>
-                                        <td><a href="" class="btn btn-outline-danger">Remove</a></td>
+                                        <td><a idProd="' . $array[$i]["id"] . '" class=" btnRemove btn btn-outline-danger">Remove</a></td>
                                     </tr>';
                         }  
                     ?>
@@ -86,10 +88,12 @@ $conn->close();
 
                 let formData = new FormData();
                 formData.append("id", this.getAttribute("idProd"));
+                
 
                 let options = {
                         method: 'POST',
                         body: formData
+                        
                     }
 
                 fetch("getProducte.php", options)
@@ -98,9 +102,29 @@ $conn->close();
                     console.log(data);
                     document.getElementById("nomProducte").value = data.nom;
                     document.getElementById("addEdit").value = data.addEdit;
+                    console.log(`Aixo es el addedit ${data.addEdit}`)
                 })
                 .catch((error) => {});
 
+            })
+        })
+        let form = document.querySelector("form");
+        let inputId = document.querySelector("#addEdit");
+        let btnRemove = document.querySelectorAll(".btnRemove");
+        let inputFuncio = document.querySelector("#funcio");
+        btnRemove.forEach(el=>{
+            el.addEventListener("click",function(){
+                console.log("Ha clicat al delete");
+                
+                inputId.value = this.getAttribute("idProd");
+                inputFuncio.value = "delete";
+                
+                form.submit();
+                
+
+                
+                
+                
             })
         })
     </script>
