@@ -1,3 +1,18 @@
+let inputs = document.querySelectorAll('input'); //Agafem tots els inputs
+
+inputs.forEach((input)=>{
+  $(input).on("focusout", function(){
+    
+    if (isFieldEmpty(input.value)){
+     
+      input.classList.add("is-invalid");
+    } else {
+      checkFieldType(input);
+      
+    }
+  });
+});
+
 
 $('#form-user-register').submit(function(e){
   
@@ -5,6 +20,44 @@ $('#form-user-register').submit(function(e){
   alert('fa submit')
 });
 
+//Mira quin tipus de camp és i el valida segons quin sigui
+function checkFieldType (input){
+  let id = input.id;
+
+  if (id == "validationDNI"){
+    if (validateNIF_NIE(input.value)){
+      validateField(input);
+    } 
+  } else if (id == "validationEmail"){
+    if (validateEmail(input.value)){
+      validateField(input);
+    }
+  } else if (id == "validationTelf"){
+    if (validateTelf(input.value)){
+      validateField(input);
+    }
+  } else {
+    validateField(input);
+  }
+
+}
+
+//Treu la class de is-invalid i posa is-valid
+function validateField (input){
+  input.classList.remove("is-invalid");
+  input.classList.add("is-valid");
+}
+
+//Mira que el camp s'hagi emplenat
+function isFieldEmpty(value){
+  if (value === '') return true;
+  return false;
+}
+
+function validateTelf(value){
+  if (value.length == 9) return true;
+  return false;
+}
 
 function validateNIF_NIE(value){
   var validChars = 'TRWAGMYFPDXBNJZSQVHLCKET';
@@ -31,8 +84,10 @@ function validateNIF_NIE(value){
 function validateEmail(mail) {
   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)){
     alert("OK");
+    return true;
   }else{
     alert("KO");
+    return false;
   }
 }
 
