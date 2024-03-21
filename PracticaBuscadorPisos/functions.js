@@ -1,25 +1,31 @@
 
+$('#form-user-register').submit(function(e){
+  
+  e.preventDefault(); //Evitem que faci el submit
+  alert('fa submit')
+});
 
-  function validateNIF_NIE(value){
-    var validChars = 'TRWAGMYFPDXBNJZSQVHLCKET';
-    var nifRexp = /^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKET]{1}$/i;
-    var nieRexp = /^[XYZ]{1}[0-9]{7}[TRWAGMYFPDXBNJZSQVHLCKET]{1}$/i;
-    var str = value.toString().toUpperCase();
 
-    if (!nifRexp.test(str) && !nieRexp.test(str)) return false;
+function validateNIF_NIE(value){
+  var validChars = 'TRWAGMYFPDXBNJZSQVHLCKET';
+  var nifRexp = /^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKET]{1}$/i;
+  var nieRexp = /^[XYZ]{1}[0-9]{7}[TRWAGMYFPDXBNJZSQVHLCKET]{1}$/i;
+  var str = value.toString().toUpperCase();
 
-    var nie = str
-      .replace(/^[X]/, '0')
-      .replace(/^[Y]/, '1')
-      .replace(/^[Z]/, '2');
+  if (!nifRexp.test(str) && !nieRexp.test(str)) return false;
 
-    var letter = str.substr(-1);
-    var charIndex = parseInt(nie.substr(0, 8)) % 23;
+  var nie = str
+    .replace(/^[X]/, '0')
+    .replace(/^[Y]/, '1')
+    .replace(/^[Z]/, '2');
 
-    if (validChars.charAt(charIndex) === letter) return true;
+  var letter = str.substr(-1);
+  var charIndex = parseInt(nie.substr(0, 8)) % 23;
 
-    return false;
-  }
+  if (validChars.charAt(charIndex) === letter) return true;
+
+  return false;
+}
 
 
 function validateEmail(mail) {
