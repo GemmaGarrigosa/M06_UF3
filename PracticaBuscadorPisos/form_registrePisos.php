@@ -20,20 +20,20 @@
 				<form id="form-user-register">
 					<div class="form-row mt-5 mb-4">
 						<div class="col-8">
-							<label for="">Nom*</label>
-							<input type="text" class="form-control" id="" value="" name="">
+							<label for="validationNom">Nom*</label>
+							<input type="text" class="form-control" id="validationNom" value="" name="">
 						</div>
 
 						<div class="col-4">
-							<label for="">Preu*</label>
-							<input type="text" class="form-control" id="" value="" name="">
+							<label for="validationPreu">Preu*</label>
+							<input type="text" class="form-control" id="validationPreu" value="" name="">
 						</div>	
 					</div>
 					
 					<div class="form-row mb-4">
 						<div class="col-4">
 							<label for="">Via</label>
-							<select class="custom-select">
+							<select class="custom-select" id="via">
 								<option selected>Open this select menu</option>
 								<option value="1">Carrer</option>
 								<option value="2">Torrent</option>
@@ -42,30 +42,30 @@
 						</div>
 
 						<div class="col-4">
-							<label for="">Nom</label>
-							<input type="text" class="form-control" id="">
+							<label for="validationCarrer">Nom</label>
+							<input type="text" class="form-control" id="carrer">
 						</div>
 
 						<div class="col-4">
-							<label for="">Número</label>
-							<input type="text" class="form-control" id="">
+							<label for="validationNumero">Número</label>
+							<input type="text" class="form-control" id="numero">
 						</div>
 					</div>
 
 					<div class="form-row mb-4">
 						<div class="col-4">
-							<label for="">Pis</label>
-							<input type="text" class="form-control" id="">
+							<label for="validationPis">Pis</label>
+							<input type="text" class="form-control" id="pis">
 						</div>
 
 						<div class="col-4">
-							<label for="">Escala</label>
-							<input type="text" class="form-control" id="">
+							<label for="validationEscala">Escala</label>
+							<input type="text" class="form-control" id="escala">
 						</div>
 
 						<div class="col-4">
-							<label for="">Porta</label>
-							<input type="text" class="form-control" id="">
+							<label for="validationPorta">Porta</label>
+							<input type="text" class="form-control" id="porta">
 						</div>
 					</div>
 					
@@ -75,8 +75,8 @@
 
 					<div class="form-row mb-4">
 						<div class="col-4">
-							<label for="">CP</label>
-							<input type="text" class="form-control" id="">
+							<label for="validationCP">CP</label>
+							<input type="text" class="form-control" id="cp">
 						</div>
 
 						<div class="col-4">
@@ -99,7 +99,7 @@
 					<div class="form-row mb-4">
 						<div class="col-4">
 							<label for="">Població</label>
-							<select class="custom-select">
+							<select class="custom-select" id="town">
 								<option selected>Open this select menu</option>
 								<option value="1">One</option>
 								<option value="2">Two</option>
