@@ -1,5 +1,6 @@
 let inputs = document.querySelectorAll('input'); //Agafem tots els inputs
 
+
 inputs.forEach((input)=>{
   $(input).on("focusout", function(){
     
@@ -13,6 +14,11 @@ inputs.forEach((input)=>{
   });
 });
 
+$('#btnUsername').click(function(e){
+  console.log("Fet click al @ de usuari")  
+  let username = generateUsername();
+  console.log(username)
+});
 
 $('#form-user-register').submit(function(e){
   
@@ -21,33 +27,43 @@ $('#form-user-register').submit(function(e){
 });
 
 //Mira quin tipus de camp és i el valida segons quin sigui
-function checkFieldType (input){
+function checkFieldType(input) {
   let id = input.id;
 
-  if (id == "validationDNI"){
-    if (validateNIF_NIE(input.value)){
+  if (id == "validationDNI") {
+    if (validateNIF_NIE(input.value)) {
       validateField(input);
-    } 
-  } else if (id == "validationEmail"){
-    if (validateEmail(input.value)){
-      validateField(input);
+    } else {
+      invalidateField(input);
     }
-  } else if (id == "validationTelf"){
-    if (validateTelf(input.value)){
+  } else if (id == "validationEmail") {
+    if (validateEmail(input.value)) {
       validateField(input);
+    } else {
+      invalidateField(input);
+    }
+  } else if (id == "validationTelf") {
+    if (validateTelf(input.value)) {
+      validateField(input);
+    } else {
+      invalidateField(input);
     }
   } else {
     validateField(input);
   }
-
 }
 
-//Treu la class de is-invalid i posa is-valid
-function validateField (input){
+// Valida el camp i aplica la clase is-valid
+function validateField(input) {
   input.classList.remove("is-invalid");
   input.classList.add("is-valid");
 }
 
+// Invalida el camp i aplica la clase is-invalid
+function invalidateField(input) {
+  input.classList.remove("is-valid");
+  input.classList.add("is-invalid");
+}
 //Mira que el camp s'hagi emplenat
 function isFieldEmpty(value){
   if (value === '') return true;
@@ -55,8 +71,15 @@ function isFieldEmpty(value){
 }
 
 function validateTelf(value){
-  if (value.length == 9) return true;
-  return false;
+  var onlyDigits= /^\d+$/;
+  if (!onlyDigits.test(value)){
+    console.log('Hi ha lletres')
+    return false;
+  }else {
+    if (value.length === 9)return true;
+    console.log('Longitut incorrecta')
+    return false;
+  }
 }
 
 function validateNIF_NIE(value){
@@ -90,4 +113,26 @@ function validateEmail(mail) {
     return false;
   }
 }
+
+//Genera un nom d'usuari a partir del nom, el cognom i el dni
+//primera lletra del nom en minúscula
+//les quatre primeres lletres del cognom amb la primera en majúscula
+//numeros de les posicions senars del DNI
+function generateUsername(){
+   
+  let name = document.querySelector("#validationNom").value.slice(0,1).toLowerCase();
+  let surname = document.querySelector("#validationCognoms").value.replace(" ","").slice(0,4).toLowerCase();
+  let surnameSliced = surname.charAt(0).toUpperCase() + surname.slice(1);
+  let dni = document.querySelector('#validationDNI').value;
+  let dniOddNumbers = "";
+  for (let i = 0; i < dni.length; i++) {
+    if (i % 2 === 0) {
+      dniOddNumbers += dni[i];
+    }
+  }
+  return name + surnameSliced + dniOddNumbers.toLowerCase();
+ 
+}
+
+
 
